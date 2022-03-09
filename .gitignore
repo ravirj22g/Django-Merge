@@ -2,5 +2,5 @@
 *migrations/
 *.pyc
 *~
-static/
+static/ 
 *media
