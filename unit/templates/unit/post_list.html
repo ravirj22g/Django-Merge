@@ -1,0 +1,27 @@
+
+{% extends 'unit/base.html' %}
+
+{% block content %}
+    {% for post in posts %}
+        <article class="post">
+            <time class="date">
+                {{ post.published_date }}
+            </time>
+            Category: <a href="{% url 'category_detail' post.category.id %}">{{post.category}}</a>
+
+            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            <p>{{ post.text|linebreaksbr|truncatechars:100}}</p>
+            Tag:{% for tag in post.tag.all %}
+            <a href="{% url 'tag_detail' id=tag.id %}">{{tag}},</a>
+            {% endfor %}
+
+        </article>
+        {% endfor %}
+
+{% endblock %}
+
+
+<h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+
+
+
