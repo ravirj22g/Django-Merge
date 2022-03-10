@@ -7,7 +7,7 @@ from .models import *
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm
 from django.shortcuts import redirect
-from .forms import PostForm, LoginForm, SignUpForm, CommentForm
+from .forms import PostForm, LoginForm, SignUpForm, CommentForm, ProfileForm
 from django.contrib import  messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import authenticate,logout
@@ -126,3 +126,19 @@ def tag_detail(request, id):
     tag = Tag.objects.filter(id=id).last()
     posts = Post.objects.filter(tag__name=tag).all()
     return render(request, 'unit/tag_detail.html', {'posts': posts})
+
+
+def user_profile(request):
+    form = ProfileForm(None,instance=request.user)
+    # print(MyUser.objects.get(request.user))
+    return render(request,'unit/user_profile.html', {'form': form})    
+
+def profile_update(request):
+    form = ProfileForm(None,instance=request.user)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request,'Profile Updated')
+            return redirect('post_list')
+    return render(request,'unit/profile_update.html', {'form': form}) 

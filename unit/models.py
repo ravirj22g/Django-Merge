@@ -9,12 +9,13 @@ from django.contrib.auth.models import AbstractUser
 class MyUser(AbstractUser):
     email = models.EmailField()
     phone = models.IntegerField(null=True, blank=True)
-    # image = models.ImageField(null=True, blank=True, upload_to='users/')
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     country = models.CharField(max_length=50)
     about = models.TextField()
     designation = models.CharField(max_length=50)
+    image = models.ImageField(null=True, blank=True, upload_to='users/')
+
 
 class Category(models.Model):
     name = models.CharField(max_length=100)

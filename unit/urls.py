@@ -14,7 +14,8 @@ urlpatterns = [
     path('signup',views.signup,name='signup'),
     path('tag/<int:id>/',views.tag_detail, name='tag_detail'),
     path('tag/',views.tag_list, name='tag_list'),
-
+    path('profile/',views.user_profile,name='user_profile'),
+    path('profile-detail/',views.profile_update,name='profile_update'),
 
 
 ]
