@@ -5,8 +5,8 @@
         <aside class="actions">
             {% if request.user.is_authenticated  %}
             <a class="btn btn-secondary" href="{% url 'post_edit' pk=post.pk %}">
-                <!-- <img src="{% static 'icons/pencil-fill.jpeg'%}" alt="pencil"> -->
                 <i class="fa fa-pencil" style="font-size:24px"></i>
+
              </a>
             {% endif %}
          </aside>
@@ -15,7 +15,41 @@
                 {{ post.published_date }}
             </time>
         {% endif %}
-        <h2>{{ post.title }}</h2>
+
+        <h2>
+            {% if post.thumbnail_image %}
+            <img src="{{post.thumbnail_image.url}}" alt="thumnial_image" width="50" height="50" style="border-radius: 50%"/>
+            {% endif %}
+            {{ post.title }}
+            
+        </h2>
+        {% if post.tag %} Tag:
+        {% for tag in post.tag.all %}
+            <a href="{% url 'tag_detail' id=tag.id %}">{{tag}},</a>
+       {% endfor %}
+       {% endif %}
+        {% if post.featured_image %}
+        <img src="{{post.featured_image.url}}" alt="featured_image" width="100%" height="400"/>
+        {% endif %}
+
         <p>{{ post.text|linebreaksbr }}</p>
     </article>
-{% endblock %}
+    {% for comment in comments %} {% if comment %}
+
+    <p>{{comment.name}}:</p>
+    <p>{{comment.comment|linebreaks}}</p>
+    <h2>Leave a Comment</h2>
+<form method="POST" enctype="multitype/form-data" class="post-form">
+  {% csrf_token %} {{form.as_p}}
+  <div class="text-center">
+    <button type="submit" class="save btn btn-secondary text-center">
+      Submit
+    </button>
+  </div>
+</form>
+
+
+
+{% else %}
+<h4>There are no comments</h4>
+{% endif %} {% endfor %} {% endblock %}

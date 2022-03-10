@@ -7,7 +7,7 @@ from .models import *
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm
 from django.shortcuts import redirect
-from .forms import PostForm, LoginForm, SignUpForm
+from .forms import PostForm, LoginForm, SignUpForm, CommentForm
 from django.contrib import  messages
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import authenticate,logout
@@ -25,9 +25,25 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     return render(request, 'unit/post_detail.html', {'post': post})
 
+
+def post_detail(request, pk):
+    post = Post.objects.filter(pk=pk).last()
+    comment = Comments.objects.filter(post=post).all()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        new_comment = form.save(commit=False)
+        new_comment.post=post
+        new_comment.save()
+        return redirect('post_detail', pk=post.pk)
+    else:
+        form = CommentForm()
+        post = get_object_or_404(Post, pk=pk)
+    return render(request, 'unit/post_detail.html', {'post': post, 'form': form, 'comments': comment})
+
+
 def post_new(request):
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
         user = MyUser.objects.filter(id=request.user.id).last()
         if form.is_valid():
             post = form.save(commit=False)
@@ -43,12 +59,13 @@ def post_new(request):
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST,request.FILES, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
             post.published_date = timezone.now()
             post.save()
+            form.save_m2m()
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm(instance=post)

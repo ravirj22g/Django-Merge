@@ -38,8 +38,8 @@ class Post(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True) 
-    thumbnail_image = models.ImageField(upload_to='image/')  
-    featured_image = models.ImageField(upload_to='image/')
+    thumbnail_image = models.ImageField(upload_to='image/',null=True,blank=True)  
+    featured_image = models.ImageField(upload_to='image/',null=True,blank=True)
     
       
 
@@ -50,3 +50,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+class Comments(models.Model):
+    name = models.CharField(max_length=50)
+    email = models.CharField(max_length=50)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    comment = models.TextField()
+    created_date = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return self.name

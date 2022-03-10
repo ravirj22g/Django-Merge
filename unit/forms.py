@@ -9,6 +9,11 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = ('title', 'text','category','tag','thumbnail_image','featured_image',)
 
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = ('name', 'email', 'comment')
+
 
 class LoginForm(forms.Form):
     email = forms.CharField(max_length=100)
