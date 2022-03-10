@@ -1,6 +1,5 @@
 
 {% extends 'unit/base.html' %}
-
 {% block content %}
     {% for post in posts %}
         <article class="post">
@@ -8,20 +7,29 @@
                 {{ post.published_date }}
             </time>
             Category: <a href="{% url 'category_detail' post.category.id %}">{{post.category}}</a>
-
-            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
-            <p>{{ post.text|linebreaksbr|truncatechars:100}}</p>
-            Tag:{% for tag in post.tag.all %}
-            <a href="{% url 'tag_detail' id=tag.id %}">{{tag}},</a>
+            <h2>
+                <a href="{% url 'post_detail' pk=post.pk %}">
+                    {% if post.thumbnail_image %}
+                    <img src="{{post.thumbnail_image.url}}" alt="thumb_image" width="50" height="50" style="border-radius: 50%"/>
+                    {% endif %}
+                </a>
+                <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+            </h2>
+                    {% comment %} <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2> {% endcomment %}
+           
+             <p>{{ post.text|linebreaksbr|truncatechars:300}}</p>
+             
+              {% if post.tag %} Tag:
+             {% for tag in post.tag.all %}
+                 <a href="{% url 'tag_detail' id=tag.id %}">{{tag}},</a>
             {% endfor %}
+            {% endif %}
+       
+     </article>
+      {% endfor %}        
 
-        </article>
-        {% endfor %}
+    {% endblock %}
 
-{% endblock %}
-
-
-<h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
 
 
 

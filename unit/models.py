@@ -37,7 +37,11 @@ class Post(models.Model):
     tag = models.ManyToManyField(Tag)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
-    published_date = models.DateTimeField(blank=True, null=True)
+    published_date = models.DateTimeField(blank=True, null=True) 
+    thumbnail_image = models.ImageField(upload_to='image/')  
+    featured_image = models.ImageField(upload_to='image/')
+    
+      
 
     def publish(self):
         self.published_date = timezone.now()
