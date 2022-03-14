@@ -23,11 +23,10 @@
                 {% comment %} <h1 style= "margin-left: 15%;"><a href="{% url 'logout' %}" style= "font-size: 18pt;">Logout</a></h1> {% endcomment %}
                 <div class="dropdown" style= "margin-left: 13%;"> 
                     <a class="" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img alt="" width="50" height="50" style="border-radius: 50%" title="" src="{{request.user.image.url}}" data-original-title="Usuario"> 
- 
-                    </a>
-                  
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        {% if request.user.image %}
+                        <img alt="" width="50" height="50" style="border-radius: 50%" title="" src="{{request.user.image.url}}" data-original-title="Usuario">
+                        {% endif %}</a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                       
                       <li><a class="dropdown-item" href="{% url 'user_profile' %}">User</a></li><hr>
                       <li><a href="{% url 'logout' %}" class="dropdown-item">Logout</a></li>
@@ -41,9 +40,7 @@
                 <h1 style= "margin-left: 15%;"><a href="{% url 'login' %}" style= "font-size: 18pt;">Login</a></h1>
                       <!-- </div> -->
                 {% endif %}
-
-
-            </div>
+              </div>
         </header>
         <main class="content container">
             <div class="row">
