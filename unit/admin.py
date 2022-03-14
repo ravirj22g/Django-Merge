@@ -1,6 +1,7 @@
 # # Register your models here.
 
 import imp
+from nturl2path import url2pathname
 from django.contrib import admin
 from .models import Post, Category, Tag, MyUser,Comments
 from django.utils.html import format_html
@@ -17,10 +18,10 @@ class PostAdmin(admin.ModelAdmin):
     search_fields=['category','tag']
     list_filter=['category','tag','created_date','author']
     filter_horizontal = ['tag']
+
     def view_on_site(self,obj):
-        url = reverse('post_details', kwargs={'slug':obj.slug})
-
-
+        url = reverse('post_detail', kwargs={'pk':obj.pk})
+        return url 
 class MyUserAdmin(admin.ModelAdmin):
     actions = ['export_as_csv']
     def export_as_csv(self, request, queryset):
