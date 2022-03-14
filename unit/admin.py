@@ -23,6 +23,7 @@ class PostAdmin(admin.ModelAdmin):
         url = reverse('post_detail', kwargs={'pk':obj.pk})
         return url 
 class MyUserAdmin(admin.ModelAdmin):
+    list_filter=['is_superuser']
     actions = ['export_as_csv']
     def export_as_csv(self, request, queryset):
         meta = self.model._meta

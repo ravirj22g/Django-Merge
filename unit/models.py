@@ -1,7 +1,7 @@
 # Create your models here.
 
 from django.conf import settings
-from django.db.models.deletion import PROTECT
+from django.db.models.deletion import PROTECT 
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
@@ -19,6 +19,7 @@ class MyUser(AbstractUser):
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    # field_name = models.SlugField(max_length=200, **options)
     # slug = AutoSlugField(populate_from='name', max_length=200,editable=False)
     def __str__(self):
         return self.name
@@ -41,7 +42,8 @@ class Post(models.Model):
     published_date = models.DateTimeField(blank=True, null=True) 
     thumbnail_image = models.ImageField(upload_to='image/',null=True,blank=True)  
     featured_image = models.ImageField(upload_to='image/',null=True,blank=True)
-    
+    # slug = AutoSlugField(populate_from='name', max_length=200,editable=False)
+
       
 
     def publish(self):
@@ -57,6 +59,8 @@ class Comments(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     comment = models.TextField()
     created_date = models.DateTimeField(auto_now_add=True)
+    # slug = AutoSlugField(populate_from='name', max_length=200,editable=False)
+
     def __str__(self):
         return self.name
 
