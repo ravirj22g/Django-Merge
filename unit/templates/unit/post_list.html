@@ -13,10 +13,9 @@
                     <img src="{{post.thumbnail_image.url}}" alt="thumb_image" width="50" height="50" style="border-radius: 50%"/>
                     {% endif %}
                 </a>
+
                 <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
-            </h2>
-                    {% comment %} <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2> {% endcomment %}
-           
+            </h2>           
              <p>{{ post.text|linebreaksbr|truncatechars:300}}</p>
              
               {% if post.tag %} Tag:

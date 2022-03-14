@@ -34,11 +34,13 @@
 
         <p>{{ post.text|linebreaksbr }}</p>
     </article>
-    {% for comment in comments %} {% if comment %}
+
+    {% comment %} {% for comment in comments %} {% if comment %}
 
     <p>{{comment.name}}:</p>
-    <p>{{comment.comment|linebreaks}}</p>
-    <h2>Leave a Comment</h2>
+    <p>{{comment.comment|linebreaks}}</p> {% endcomment %}
+    
+<h2>Leave a Comment</h2>
 <form method="POST" enctype="multitype/form-data" class="post-form">
   {% csrf_token %} {{form.as_p}}
   <div class="text-center">
@@ -48,8 +50,25 @@
   </div>
 </form>
 
+{% for comment in comments %} {% if comment %}
 
-
+<p>{{comment.name}}:</p>
+<p>{{comment.comment|linebreaks}}</p> 
+{% for reply in comment.replies.all %}
+<div class="bg-info ms-5 p-3 border-1 rounded mb-3">
+  <p>{{reply.name}}</p>
+  <p>{{reply.comment}}</p>
+</div>
+{% endfor %}
+<h5 class="ms-5 p-3">Reply</h5>
+<form action="" method="post">
+  {% csrf_token %}
+  <div class="ms-5 p-3">
+    {{form.as_p}}
+    <input type="hidden" name="reply_id" value="{{comment.id}}" />
+    <input class="btn btn-primary" type="submit" value="Reply" />
+  </div>
+</form>
 {% else %}
 <h4>There are no comments</h4>
 {% endif %} {% endfor %} {% endblock %}
